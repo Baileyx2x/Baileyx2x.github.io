@@ -94,7 +94,7 @@
 <meta property="og:locale" content="en_US">
 <meta property="og:image" content="https://baileyx2x.github.io/images/redefine-og.webp">
 <meta property="article:published_time" content="2026-03-25T09:37:36.000Z">
-<meta property="article:modified_time" content="2026-03-25T09:37:36.239Z">
+<meta property="article:modified_time" content="2026-03-25T09:59:17.125Z">
 <meta property="article:author" content="John Doe">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:image" content="https://baileyx2x.github.io/images/redefine-og.webp">
@@ -326,8 +326,8 @@
     
         <span class="article-date article-meta-item">
             <i class="fa-regular fa-wrench"></i>&nbsp;
-            <span class="desktop">2026-03-25 17:37:36</span>
-            <span class="mobile">2026-03-25 17:37:36</span>
+            <span class="desktop">2026-03-25 17:59:17</span>
+            <span class="mobile">2026-03-25 17:59:17</span>
             <span class="hover-info">Updated</span>
         </span>
     
@@ -354,7 +354,55 @@
 
 
 		<div class="article-content markdown-body px-2 sm:px-6 md:px-8 pb-8">
-			
+			<hr>
+<h1 id="实验报告：基于-Serverless-架构与-Hexo-的静态博客云端部署"><a href="#实验报告：基于-Serverless-架构与-Hexo-的静态博客云端部署" class="headerlink" title="实验报告：基于 Serverless 架构与 Hexo 的静态博客云端部署"></a>实验报告：基于 Serverless 架构与 Hexo 的静态博客云端部署</h1><p><strong>课程名称</strong>：云计算技术<br><strong>实验名称</strong>：实验二——网站部署技能<br><strong>学生姓名</strong>：薛熠阳 (Github：Baileyx2x)<br><strong>日期</strong>：2026-03-25</p>
+<hr>
+<h2 id="一、-实验目的与技术背景"><a href="#一、-实验目的与技术背景" class="headerlink" title="一、 实验目的与技术背景"></a>一、 实验目的与技术背景</h2><ol>
+<li><strong>理解 Serverless 与静态网页托管</strong>：对比传统基于 IaaS（如自行配置云服务器的 LAMP 架构）的网站搭建方式，深入理解 GitHub Pages 提供的 Serverless 静态页面托管服务的优势与局限性。</li>
+<li><strong>掌握 Node.js 工具链</strong>：熟悉现代前端工程化基础，包括 NPM 包管理机制、依赖隔离（<code>package.json</code>）以及本地微型 Web 服务器的启动。</li>
+<li><strong>实践 CI&#x2F;CD 雏形</strong>：通过自动化脚本实现从本地 Markdown 源码到云端 HTML 静态网页的编译、版本控制与一键部署过程。</li>
+<li><strong>构建技术文档基础设施</strong>：为后续的软件工程项目搭建具备高可用性、零运维成本的公网展示与文档分发平台。</li>
+</ol>
+<h2 id="二、-实验环境与工具栈"><a href="#二、-实验环境与工具栈" class="headerlink" title="二、 实验环境与工具栈"></a>二、 实验环境与工具栈</h2><ul>
+<li><strong>操作系统</strong>：Windows 11</li>
+<li><strong>运行环境</strong>：Node.js (LTS 版本)</li>
+<li><strong>环境管理</strong>：nvm-windows (用于多版本 Node.js 环境的隔离与切换)</li>
+<li><strong>版本控制与部署通道</strong>：Git (CLI)</li>
+<li><strong>云端基础设施</strong>：GitHub (代码托管) + GitHub Pages (全球 CDN 加速与域名解析)</li>
+<li><strong>核心框架</strong>：Hexo (基于 JavaScript 的静态站点生成器)</li>
+</ul>
+<h2 id="三、-实验核心步骤与原理分析"><a href="#三、-实验核心步骤与原理分析" class="headerlink" title="三、 实验核心步骤与原理分析"></a>三、 实验核心步骤与原理分析</h2><h3 id="1-云端资源池配置-GitHub-Pages"><a href="#1-云端资源池配置-GitHub-Pages" class="headerlink" title="1. 云端资源池配置 (GitHub Pages)"></a>1. 云端资源池配置 (GitHub Pages)</h3><p>在 GitHub 平台创建命名格式严格限定为 <code>Baileyx2x.github.io</code> 的 Public 仓库。</p>
+<ul>
+<li><strong>原理分析</strong>：GitHub Pages 会自动为其底层分配独立的子域名，并将其纳入全球内容分发网络（CDN）中。该平台仅支持纯静态文件（HTML&#x2F;CSS&#x2F;JS）的解析，不支持 PHP、Java 等后端动态语言的执行。</li>
+</ul>
+<h3 id="2-本地构建环境与权限配置"><a href="#2-本地构建环境与权限配置" class="headerlink" title="2. 本地构建环境与权限配置"></a>2. 本地构建环境与权限配置</h3><p>使用 nvm 安装 Node.js 并配置国内镜像源（<code>npmmirror</code>）以解决跨境网络延迟问题。</p>
+<ul>
+<li><strong>关键权限突破</strong>：在初始化 Hexo 框架时，Windows PowerShell 默认的安全策略会拦截未签名的第三方脚本（抛出 <code>SecurityError: PSSecurityException</code>）。通过以管理员身份执行 <code>set-ExecutionPolicy RemoteSigned</code>，赋予本地终端执行 Node.js 自动化脚本的权限。</li>
+</ul>
+<h3 id="3-框架初始化与依赖装载"><a href="#3-框架初始化与依赖装载" class="headerlink" title="3. 框架初始化与依赖装载"></a>3. 框架初始化与依赖装载</h3><p>执行 <code>hexo init myblog</code> 构建项目骨架，并通过 <code>npm install</code> 挂载依赖树。</p>
+<ul>
+<li><strong>依赖管理机制</strong>：在引入第三方主题（如 Fluid 或 Redefine）及 Git 部署插件（<code>hexo-deployer-git</code>）时，使用 <code>--save</code> 参数将依赖版本号精确写入 <code>package.json</code>。这一机制确保了即使未来更换开发设备，只需同步配置文件即可通过 <code>npm i</code> 瞬间还原完整的编译环境，符合云原生开发中“应用与环境解耦”的原则。</li>
+</ul>
+<h3 id="4-静态编译与云端推送-Deploy"><a href="#4-静态编译与云端推送-Deploy" class="headerlink" title="4. 静态编译与云端推送 (Deploy)"></a>4. 静态编译与云端推送 (Deploy)</h3><ul>
+<li><strong>本地编译 (<code>hexo generate</code>)</strong>：Hexo 引擎读取 <code>source</code> 目录下的 Markdown 源码，结合设定的 YAML 配置文件与主题模板，经过 AST（抽象语法树）解析后，渲染输出标准的 Web 静态文件至 <code>public</code> 文件夹。</li>
+<li><strong>一键部署 (<code>hexo deploy</code>)</strong>：触发 <code>hexo-deployer-git</code> 插件，在底层自动执行 Git 协议的 <code>add</code>、<code>commit</code> 与 <code>push</code> 操作，将 <code>public</code> 目录作为分支覆盖推送至远程 GitHub 仓库，完成云端迭代。</li>
+</ul>
+<h2 id="四、-实验常见问题与故障排除-Troubleshooting"><a href="#四、-实验常见问题与故障排除-Troubleshooting" class="headerlink" title="四、 实验常见问题与故障排除 (Troubleshooting)"></a>四、 实验常见问题与故障排除 (Troubleshooting)</h2><ol>
+<li><strong>终端脚本执行受限 (UnauthorizedAccess)</strong><ul>
+<li><strong>现象</strong>：系统提示“无法加载文件 hexo.ps1，因为在此系统上禁止运行脚本”。</li>
+<li><strong>解决</strong>：这是 Windows 的默认执行策略限制。通过更改 PowerShell 的 ExecutionPolicy 为 <code>RemoteSigned</code> 成功放行。</li>
+</ul>
+</li>
+<li><strong>云端服务连通性警告 (CDN Unavailable)</strong><ul>
+<li><strong>现象</strong>：编译时终端输出 <code>WARN [redefine] ZStatic/CDNJS CDN is unavailable yet.</code></li>
+<li><strong>分析与解决</strong>：由于本地网络到国际第三方开源 CDN 节点的路由节点存在波动或被阻断。Hexo 具备良好的容错机制，会自动降级采用备用 CDN 节点或回源拉取本地静态资源，不影响最终构建产物的完整性。</li>
+</ul>
+</li>
+</ol>
+<h2 id="五、-实验总结与项目扩展"><a href="#五、-实验总结与项目扩展" class="headerlink" title="五、 实验总结与项目扩展"></a>五、 实验总结与项目扩展</h2><p>通过本次实验，我完整体验了静态网站“本地渲染-云端托管”的全生命周期，深刻体会到了 Serverless 架构在降低运维成本、抵御高并发访问方面的架构优势。</p>
+<p>该云端博客不仅完成了本次实验的要求，还将直接服务于我正在进行的其他核心工程项目。例如，后续可利用该平台低成本托管 Android 应用“育芽守护”的隐私政策协议与 API 接口文档；同时，其原生支持的 Markdown 语法与代码高亮特性，也极大地便利了用于记录 CUDA 并行算法优化日志，以及沉淀 RAG (检索增强生成) 相关架构的参赛技术复盘。这种将云基础服务与实际软件工程紧密结合的实践，大幅提升了技术栈的综合利用效率。</p>
+<hr>
+
 		</div>
 
 		
@@ -368,7 +416,7 @@
         
             <li>
                 <strong>Updated at
-                    :</strong> 2026-03-25 17:37:36
+                    :</strong> 2026-03-25 17:59:17
             </li>
         
         <li>
@@ -485,7 +533,7 @@
 	<div class="post-toc">
 		<div class="toc-title">On this page</div>
 		<div class="page-title">云计算实验二——网站部署技能</div>
-		
+		<ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%AE%9E%E9%AA%8C%E6%8A%A5%E5%91%8A%EF%BC%9A%E5%9F%BA%E4%BA%8E-Serverless-%E6%9E%B6%E6%9E%84%E4%B8%8E-Hexo-%E7%9A%84%E9%9D%99%E6%80%81%E5%8D%9A%E5%AE%A2%E4%BA%91%E7%AB%AF%E9%83%A8%E7%BD%B2"><span class="nav-text">实验报告：基于 Serverless 架构与 Hexo 的静态博客云端部署</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%80%E3%80%81-%E5%AE%9E%E9%AA%8C%E7%9B%AE%E7%9A%84%E4%B8%8E%E6%8A%80%E6%9C%AF%E8%83%8C%E6%99%AF"><span class="nav-text">一、 实验目的与技术背景</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BA%8C%E3%80%81-%E5%AE%9E%E9%AA%8C%E7%8E%AF%E5%A2%83%E4%B8%8E%E5%B7%A5%E5%85%B7%E6%A0%88"><span class="nav-text">二、 实验环境与工具栈</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%89%E3%80%81-%E5%AE%9E%E9%AA%8C%E6%A0%B8%E5%BF%83%E6%AD%A5%E9%AA%A4%E4%B8%8E%E5%8E%9F%E7%90%86%E5%88%86%E6%9E%90"><span class="nav-text">三、 实验核心步骤与原理分析</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-%E4%BA%91%E7%AB%AF%E8%B5%84%E6%BA%90%E6%B1%A0%E9%85%8D%E7%BD%AE-GitHub-Pages"><span class="nav-text">1. 云端资源池配置 (GitHub Pages)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-%E6%9C%AC%E5%9C%B0%E6%9E%84%E5%BB%BA%E7%8E%AF%E5%A2%83%E4%B8%8E%E6%9D%83%E9%99%90%E9%85%8D%E7%BD%AE"><span class="nav-text">2. 本地构建环境与权限配置</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-%E6%A1%86%E6%9E%B6%E5%88%9D%E5%A7%8B%E5%8C%96%E4%B8%8E%E4%BE%9D%E8%B5%96%E8%A3%85%E8%BD%BD"><span class="nav-text">3. 框架初始化与依赖装载</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-%E9%9D%99%E6%80%81%E7%BC%96%E8%AF%91%E4%B8%8E%E4%BA%91%E7%AB%AF%E6%8E%A8%E9%80%81-Deploy"><span class="nav-text">4. 静态编译与云端推送 (Deploy)</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%9B%9B%E3%80%81-%E5%AE%9E%E9%AA%8C%E5%B8%B8%E8%A7%81%E9%97%AE%E9%A2%98%E4%B8%8E%E6%95%85%E9%9A%9C%E6%8E%92%E9%99%A4-Troubleshooting"><span class="nav-text">四、 实验常见问题与故障排除 (Troubleshooting)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BA%94%E3%80%81-%E5%AE%9E%E9%AA%8C%E6%80%BB%E7%BB%93%E4%B8%8E%E9%A1%B9%E7%9B%AE%E6%89%A9%E5%B1%95"><span class="nav-text">五、 实验总结与项目扩展</span></a></li></ol></li></ol>
 
 	</div>
 </div>
